@@ -119,7 +119,7 @@ const AccountReceivable = () => {
 
       <main className="">
         <div className="bg-white rounded-lg shadow-lg p-4">
-          <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">ACCOUNT RECEIVABLES AGEING SUMMARY AS OF <span className="underline underline-offset-8">{formattedDate}</span>
+          <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">ACCOUNT  RECEIVABLES AGEING SUMMARY AS OF <span className="underline underline-offset-8">{formattedDate}</span>
 </h2>
           
           <input
