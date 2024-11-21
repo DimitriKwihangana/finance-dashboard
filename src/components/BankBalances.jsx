@@ -162,26 +162,17 @@ const BankBalances = () => {
                   <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
                 </tr>
               ))}
-            </tbody>
-            <tfoot>
+              {/* trying th magic here */}
               <tr>
-                <td colSpan="3" className="py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
-                <td className="py-2 text-left font-semibold">{totalCurrentAsserts}</td>
+                <td colSpan="3" className="px-3 py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
+                <td className="px-3 py-2 text-left font-semibold">{totalCurrentAsserts}</td>
               </tr>
-            </tfoot>
-          </table>
+              <tr>
+                <td colSpan="3" className="px-3 py-2 text-left"><strong></strong></td>
+                <td className="px-3 py-2 text-left font-semibold"></td>
+              </tr>
 
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {netCurrentAssets.map((row) => (
+              {netCurrentAssets.map((row) => (
               <tr key={row.id} 
               onClick={() => handleShowDetails(row)}
               className="hover:bg-gray-100 cursor-pointer border-t"
@@ -192,29 +183,19 @@ const BankBalances = () => {
                 <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
               </tr>
             ))}
-          </tbody>
-          <tfoot>
             <tr>
-              <td colSpan="3" className="py-2 text-left">BALANCE OF O/D</td>
-              <td className="py-2 text-left font-semibold">{odB}</td>
+              <td colSpan="3" className="px-3 py-2 text-left">BALANCE OF O/D</td>
+              <td className="px-3 py-2 text-left font-semibold">{odB}</td>
             </tr>
             <tr>
-              <td colSpan="3" className="py-2 text-left"><strong>NET CURRENT ASSETS/NET CASH IN BANK</strong></td>
-              <td className="py-2 text-left font-semibold">{odB}</td>
+              <td colSpan="3" className="px-3 py-2 text-left"><strong>NET CURRENT ASSETS/NET CASH IN BANK</strong></td>
+              <td className="px-3 py-2 text-left font-semibold">{odB}</td>
             </tr>
-          </tfoot>
-        </table>
+            <tr>
+                <td colSpan="3" className="px-3 py-2 text-left"><strong></strong></td>
+                <td className="px-3 py-2 text-left font-semibold"></td>
+              </tr>
 
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
-            </tr>
-          </thead>
-          <tbody>
             {unutilizedGrant.map((row) => (
               <tr key={row.id} 
               onClick={() => handleShowDetails(row)}
@@ -226,14 +207,16 @@ const BankBalances = () => {
                 <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
               </tr>
             ))}
-          </tbody>
-          <tfoot>
+
             <tr>
-              <td colSpan="3" className="py-2 text-left"><strong>TOTAL UNUTILIZED GRANT</strong></td>
-              <td className="py-2 text-left font-semibold">{totalUG}</td>
+              <td colSpan="3" className="px-3 py-2 text-left"><strong>TOTAL UNUTILIZED GRANT</strong></td>
+              <td className="px-3 py-2 text-left font-semibold">{totalUG}</td>
             </tr>
-          </tfoot>
-        </table>
+              
+            </tbody>
+          </table>
+
+
         <div className=" inset-0 flex items-center justify-center p-5">
             <button
             onClick={handleShowCreate}
