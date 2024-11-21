@@ -5,6 +5,7 @@ const dataSlice = createSlice({
   name: "data",
   initialState: {
     accountReceivable: [], 
+    accountPayable: [], 
     bankBalances: [], 
     expenses: [],
     rates: [],
@@ -13,6 +14,9 @@ const dataSlice = createSlice({
   reducers: {
     setAccountReceivable: (state, action) => {
       state.accountReceivable = action.payload;
+    },
+    setAccountPayable: (state, action) => {
+      state.accountPayable = action.payload;
     },
     setBankBalances: (state, action) => {
       state.bankBalances = action.payload;
@@ -43,6 +47,22 @@ export const fetchAccountReceivable = () => async (dispatch) => {
     console.log("Axios error:", error.message);
   }
 };
+
+export const fetchAccountPayable = () => async (dispatch) => {
+  try {
+    
+    const response = await axios.get(
+      "https://databankvanguard-b3d326c04ab4.herokuapp.com/finance/accountpayable/"
+    );
+
+    dispatch(setAccountPayable(response.data));
+    
+    
+  } catch (error) {
+    console.log("Axios error:", error.message);
+  }
+};
+
 export const fetchBankBalances = () => async (dispatch) => {
   try {
     
@@ -95,6 +115,7 @@ export const fetchRates = () => async (dispatch) => {
 
 export const {
   setAccountReceivable,
+  setAccountPayable,
 setBankBalances, setExpenses,
 setRates
 

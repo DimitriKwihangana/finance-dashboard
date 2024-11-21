@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import AccountReceivable from './components/AccountReceivables.jsx';
+import AccountPayable from './components/AccountPayables.jsx';
 import Expenses from './components/Expenses.jsx';
 import BankBalances from './components/BankBalances.jsx';
 import CurrencyCrud from './components/Currencies.jsx';
@@ -12,6 +13,7 @@ function App() {
       <div className="p-5"> {/* Added Tailwind padding utility */}
         <Routes>
           <Route path="/account-receivables" element={<AccountReceivable />} />
+          <Route path="/account-payables" element={<AccountPayable />} />
           <Route path="/expense" element={<Expenses />} />
           <Route path="/bankbalance" element={<BankBalances />} />
           <Route path="/rates" element={<CurrencyCrud />} />

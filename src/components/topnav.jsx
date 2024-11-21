@@ -8,6 +8,7 @@ const TabsComponent = () => {
 
   const tabs = [
     { name: 'Account Receivables', path: '/' },
+    { name: 'Account Payables', path: '/account-payables' },
     { name: 'Expenses', path: '/expense' },
     { name: 'Bank balances', path: '/bankbalance' },
     { name: 'Exchange rates', path: '/rates' },
