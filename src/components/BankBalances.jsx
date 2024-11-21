@@ -17,10 +17,10 @@ const BankBalances = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
+
   const handleCloseEdit = () => setShowEditModal(false);
+
   const handleShowEdit = (row) => {
-    setCurrentRow(row);
-    setFormData(row);
     setShowDetailsModal(false);
     setShowEditModal(true);
   };
@@ -33,8 +33,10 @@ const BankBalances = () => {
   const handleCloseCreate = () => setShowCreateModal(false);
 
   const handleCloseDetails = () => setShowDetailsModal(false);
+
   const handleShowDetails = (row) => {
     setCurrentRow(row);
+    setFormData(row)
     setShowDetailsModal(true);
   };
 
@@ -138,36 +140,36 @@ const BankBalances = () => {
       <div className="bg-white rounded-lg shadow-lg p-4">
         <h2 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">VANGUARD BANK BALANCES AS OF <span className="underline underline-offset-8">{formattedDate}</span></h2>
 
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">CASH AT BANK</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Rate</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount in RWF</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentAssets.map((row) => (
-              <tr key={row.id} 
-              onClick={() => handleShowDetails(row)
-              }
-              className="hover:bg-gray-100 cursor-pointer border-t"
-              >
-                <td className="px-3 py-2 max-w-18">{row.name}</td>
-                <td className="px-3 py-2 max-w-18">{row.amount}</td>
-                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
-                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
+          <table className="table-auto w-full border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">CASH AT BANK</th>
+                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount</th>
+                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Rate</th>
+                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount in RWF</th>
               </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan="3" className="py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
-              <td className="py-2 text-left font-semibold">{totalCurrentAsserts}</td>
-            </tr>
-          </tfoot>
-        </table>
+            </thead>
+            <tbody>
+              {currentAssets.map((row) => (
+                <tr key={row.id} 
+                onClick={() => handleShowDetails(row)
+                }
+                className="hover:bg-gray-100 cursor-pointer border-t"
+                >
+                  <td className="px-3 py-2 max-w-18">{row.name}</td>
+                  <td className="px-3 py-2 max-w-18">{row.amount}</td>
+                  <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
+                  <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="3" className="py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
+                <td className="py-2 text-left font-semibold">{totalCurrentAsserts}</td>
+              </tr>
+            </tfoot>
+          </table>
 
         <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
