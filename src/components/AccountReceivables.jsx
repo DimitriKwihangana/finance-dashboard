@@ -162,6 +162,19 @@ const AccountReceivable = () => {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+            <tr className="border-t border-gray-300">
+              <td colSpan="3" className="py-2 text-left">
+                <strong></strong>
+              </td>
+              <td className="py-2 text-left font-semibold">{totalaccountReceivables}</td>
+              <td colSpan="1" className="py-2 text-center">
+                <strong></strong>
+              </td>
+              <td className="py-2 text-left font-semibold">{balanceaccountReceivables}</td>
+            </tr>
+
+            </tfoot>
           </table>
         </div>
         <div className=" inset-0 flex items-center justify-center p-5">
@@ -336,6 +349,16 @@ const AccountReceivable = () => {
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <h3 className="text-xl font-bold mb-4">Edit Account Receivable</h3>
       <form onSubmit={(e) => e.preventDefault()}>
+      <div className="mb-4">
+          <label className="block text-gray-700">Invoice Date</label>
+          <input
+            type="date"
+            name="invoice_date"
+            value={formData.invoice_date || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
         <div className="mb-4">
           <label className="block text-gray-700">Customer Name</label>
           <input
@@ -362,6 +385,36 @@ const AccountReceivable = () => {
             type="number"
             name="total_amount"
             value={formData.total_amount || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Balance</label>
+          <input
+            type="number"
+            name="balance"
+            value={formData.balance || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Due Date</label>
+          <input
+            type="date"
+            name="due_date"
+            value={formData.due_date || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Service Type</label>
+          <input
+            type="text"
+            name="service_type"
+            value={formData.service_type || ''}
             onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded"
           />
@@ -403,7 +456,19 @@ const AccountReceivable = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 font-medium">Date Created:</label>
-        <p className="text-gray-800">{currentRow?.created_at || 'N/A'}</p>
+        <p className="text-gray-800">{currentRow?.invoice_date || 'N/A'}</p>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium">Balance:</label>
+        <p className="text-gray-800">{currentRow?.balance || 'N/A'}</p>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium">Due Date:</label>
+        <p className="text-gray-800">{currentRow?.due_date || 'N/A'}</p>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium">Type Of Service:</label>
+        <p className="text-gray-800">{currentRow?.service_type || 'N/A'}</p>
       </div>
       <div className="flex justify-end space-x-3">
         <button
