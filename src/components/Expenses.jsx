@@ -1,24 +1,22 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExpenses, fetchBankBalances } from "../features/dataSlice";
 import axios from '../api';
-import { Table, Button, Modal, Navbar, Nav, Pagination, Form } from 'react-bootstrap';
 
 const Expenses = () => {
-  const [data, setData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showDetailsModal, setShowDetailsModal] = useState(false); // Read-only modal state
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const expenses = useSelector((state) => state.data.expenses);
+
+  const totalExpenses = expenses.reduce(
+    (total, item) => total + parseFloat(item.amount || 0),
+    0
+  );
 
   const handleFetchProjects = useCallback(() => {
     dispatch(fetchExpenses());
@@ -84,167 +82,235 @@ const Expenses = () => {
     }
   };
 
-  const filteredData = expenses.filter(row =>
+  const filteredData = expenses.filter((row) =>
     row.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
   return (
     <div>
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand href="/">Dashboard</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/" className="nav-link"><i className="bi bi-house-fill me-2"></i> Home</Nav.Link>
-            <Nav.Link className="nav-link" onClick={handleShowCreate}><i className="bi bi-plus"></i> Create</Nav.Link>
-            <Nav.Link onClick={() => navigate('/bankbalance')}><i className="bi bi-bank me-2"></i> Bank Balances</Nav.Link>
-            <Nav.Link onClick={() => navigate('/account-receivables')}><i className="bi bi-graph-up-arrow"></i>Account Receivables</Nav.Link>
-            <Nav.Link className="nav-link" onClick={() => navigate('/rates')}><i className="bi bi-pencil-square"></i> Rates</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">EXPENSES</h2>
 
-      <div className="container mt-4">
-        <h2 className="text-center mb-4">Expenses</h2>
-
-        <Form.Control
-          type="text"
-          placeholder="Search by Description..."
-          className="mb-4"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th>Amount</th>
-              {/* <th>Actions</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((row) => (
-              <tr key={row.id} onClick={() => handleShowDetails(row)}>
-                <td>{row.description}</td>
-                <td>{row.amount}</td>
-                {/* <td>
-                  <Button variant="warning" onClick={(e) => { e.stopPropagation(); handleShowEdit(row); }}>Edit</Button>
-                  <Button variant="danger" className="ms-2" onClick={(e) => { e.stopPropagation(); handleDelete(row.id); }}>Delete</Button>
-                </td> */}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-
-        <Pagination className="justify-content-center">
-          <Pagination.Prev
-            onClick={() => setCurrentPage(currentPage - 1)}
-            disabled={currentPage === 1}
-          />
-          {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item
-              key={index + 1}
-              active={index + 1 === currentPage}
-              onClick={() => setCurrentPage(index + 1)}
+      <input
+        type="text"
+        placeholder="Search by Description..."
+        className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#087ABC]"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+    <div>
+      <table className="table-auto w-full border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Description
+            </th>
+            <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">
+              Amount
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map((row) => (
+            <tr
+              key={row.id}
+              onClick={() => handleShowDetails(row)}
+              className="hover:bg-gray-100 cursor-pointer border-t"
             >
-              {index + 1}
-            </Pagination.Item>
+              <td className="px-3 py-2 max-w-18">{row.description}</td>
+              <td className="px-3 py-2 max-w-18">{row.amount}</td>
+            </tr>
           ))}
-          <Pagination.Next
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          />
-        </Pagination>
-
-        {/* Details Modal */}
-        <Modal show={showDetailsModal} onHide={handleCloseDetails}>
-          <Modal.Header closeButton>
-            <Modal.Title>Expense Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p><strong>Description:</strong> {formData.description}</p>
-            <p><strong>Amount:</strong> {formData.amount}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="warning" onClick={() => { handleCloseDetails(); handleShowEdit(formData); }}>Edit</Button>
-            <Button variant="danger" onClick={() => { handleCloseDetails(); handleDelete(formData.id); }}>Delete</Button>
-            <Button variant="secondary" onClick={handleCloseDetails}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-
-        {/* Edit Modal */}
-        <Modal show={showEditModal} onHide={handleCloseEdit}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Expense</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="formDescription">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="description"
-                  value={formData.description || ''}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="formAmount" className="mt-3">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="amount"
-                  value={formData.amount || ''}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseEdit}>Close</Button>
-            <Button variant="primary" onClick={handleUpdate}>Save Changes</Button>
-          </Modal.Footer>
-        </Modal>
-
-        {/* Create Modal */}
-        <Modal show={showCreateModal} onHide={handleCloseCreate}>
-          <Modal.Header closeButton>
-            <Modal.Title>Add New Expense</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="formDescription">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="description"
-                  value={formData.description || ''}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="formAmount" className="mt-3">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="amount"
-                  value={formData.amount || ''}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseCreate}>Close</Button>
-            <Button variant="primary" onClick={handleCreate}>Add Expense</Button>
-          </Modal.Footer>
-        </Modal>
+        </tbody>
+        <tfoot>
+        <tr className="border-t border-gray-300">
+              <td  className="py-2 text-left">
+                <strong></strong>
+              </td>
+              <td className="py-2 text-left font-semibold">{totalExpenses}</td>
+            </tr>
+            </tfoot>
+      </table>
       </div>
+
+      <div className=" inset-0 flex items-center justify-center p-5">
+          <button
+              onClick={handleShowCreate}
+              className=" flex items-center justify-center w-12 h-12 bg-[#087abc] hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              >
+              <span className="text-xl font-bold">+</span>
+          </button>
+      </div>
+
+      {/* Details Modal */}
+      {showDetailsModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-4">Expense Details</h3>
+            
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Description:</label>
+              <p className="text-gray-800">{formData?.description || 'N/A'}</p>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Amount:</label>
+              <p className="text-gray-800">{formData?.amount || 'N/A'}</p>
+            </div>            
+
+            <div className="flex justify-end space-x-3">
+            <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                onClick={handleCloseDetails}
+              >
+                Close
+              </button>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={() => { handleCloseDetails(); handleShowEdit(formData); }}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded"
+                onClick={() => { handleCloseDetails(); handleDelete(formData.id); }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create and Edit modals can follow a similar structure */}
+
+
+      {showCreateModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold">Create New Entry</h3>
+        <button
+          onClick={handleCloseCreate}
+          className="text-gray-500 hover:text-gray-800"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <form>
+
+        {/* Description*/}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="description">
+          Description
+          </label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            value={formData.description || ''}
+            onChange={handleInputChange}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Amount */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2" htmlFor="amount">
+            Total Amount
+          </label>
+          <input
+            type="number"
+            id="amount"
+            name="amount"
+            value={formData.amount || ''}
+            onChange={handleInputChange}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2"
+          />
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end space-x-3">
+          <button
+            type="button"
+            onClick={handleCloseCreate}
+            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            onClick={handleCreate}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Create
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+{showEditModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+      <h3 className="text-xl font-bold mb-4">Edit Expense</h3>
+      <form onSubmit={(e) => e.preventDefault()}>
+
+        <div className="mb-4">
+          <label className="block text-gray-700">Description</label>
+          <input
+            type="text"
+            name="description"
+            value={formData.description || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Amount</label>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount || ''}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleCloseEdit}
+            className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleUpdate}
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
+
     </div>
   );
 };
