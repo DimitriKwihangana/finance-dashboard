@@ -21,6 +21,7 @@ const BankBalances = () => {
   const handleShowEdit = (row) => {
     setCurrentRow(row);
     setFormData(row);
+    setShowDetailsModal(false);
     setShowEditModal(true);
   };
 
@@ -123,9 +124,9 @@ const BankBalances = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this entry?");
     if (confirmDelete) {
       try {
-        await axios.delete(`bankbalance/${id}/`);
-        const response = await axios.get('/bankbalance/');
-        setData(response.data);
+        await axios.delete(`bankbalance/${currentRow.id}/`);
+        setShowDetailsModal(false);
+        window.location.reload();
       } catch (error) {
         console.error("Error deleting data:", error);
       }
@@ -134,241 +135,395 @@ const BankBalances = () => {
 
   return (
     <div>
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand href="/">Dashboard</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/" className="nav-link"><i className="bi bi-house-fill me-2"></i> Home</Nav.Link>
-            <Nav.Link className="nav-link" onClick={handleShowCreate}><i className="bi bi-plus"></i> Create</Nav.Link>
-            <Nav.Link onClick={() => navigate('/expense')} className="nav-link"><i className="bi bi-cash-coin"></i> Expenses</Nav.Link>
-            <Nav.Link onClick={() => navigate('/account-receivables')} className="nav-link"><i className="bi-graph-up-arrow"></i> Account Receivables</Nav.Link>
-            <Nav.Link className="nav-link" onClick={() => navigate('/rates')}><i className="bi bi-pencil-square"></i> Rates</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="bg-white rounded-lg shadow-lg p-4">
+        <h2 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">VANGUARD BANK BALANCES AS OF <span className="underline underline-offset-8">{formattedDate}</span></h2>
 
-      <div className="container mt-4">
-        <h3 className="text-center mb-4">VANGUARD BANK BALANCES AS OF {formattedDate}</h3>
-
-        <Table striped bordered hover responsive className="custom-table text-left">
+        <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th style={{ width: '40%' }}>CASH AT BANK</th>
-              <th style={{ width: '15%' }}>Amount</th>
-              <th style={{ width: '10%' }}>Rate</th>
-              <th style={{ width: '15%' }}>Amount in RWF</th>
+              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">CASH AT BANK</th>
+              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount</th>
+              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Rate</th>
+              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount in RWF</th>
             </tr>
           </thead>
           <tbody>
             {currentAssets.map((row) => (
-              <tr key={row.id} onClick={() => handleShowDetails(row)}>
-                <td>{row.name}</td>
-                <th>{row.amount}</th>
-                <th>{row.rwf_equivalent}</th>
-                <th>{(row.amount * row.rwf_equivalent).toFixed(2)}</th>
+              <tr key={row.id} 
+              onClick={() => handleShowDetails(row)
+              }
+              className="hover:bg-gray-100 cursor-pointer border-t"
+              >
+                <td className="px-3 py-2 max-w-18">{row.name}</td>
+                <td className="px-3 py-2 max-w-18">{row.amount}</td>
+                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
+                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="3"><strong>TOTAL CURRENT ASSETS</strong></td>
-              <td>{totalCurrentAsserts}</td>
+              <td colSpan="3" className="py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
+              <td className="py-2 text-left font-semibold">{totalCurrentAsserts}</td>
             </tr>
           </tfoot>
-        </Table>
+        </table>
 
-        <Table striped bordered hover responsive className="custom-table">
+        <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th style={{ width: '40%' }}></th>
-              <th style={{ width: '15%' }}></th>
-              <th style={{ width: '10%' }}></th>
-              <th style={{ width: '15%' }}></th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
             </tr>
           </thead>
           <tbody>
             {netCurrentAssets.map((row) => (
-              <tr key={row.id} onClick={() => handleShowDetails(row)}>
-                <td>{row.name}</td>
-                <th>{row.amount}</th>
-                <th>{row.rwf_equivalent}</th>
-                <th>{(row.amount * row.rwf_equivalent).toFixed(2)}</th>
+              <tr key={row.id} 
+              onClick={() => handleShowDetails(row)}
+              className="hover:bg-gray-100 cursor-pointer border-t"
+              >
+                <td className="px-3 py-2 max-w-18">{row.name}</td>
+                <td className="px-3 py-2 max-w-18">{row.amount}</td>
+                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
+                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="3">BALANCE OF O/D</td>
-              <td>{odB}</td>
+              <td colSpan="3" className="py-2 text-left">BALANCE OF O/D</td>
+              <td className="py-2 text-left font-semibold">{odB}</td>
             </tr>
             <tr>
-              <td colSpan="3"><strong>NET CURRENT ASSETS/NET CASH IN BANK</strong></td>
-              <td>{odB}</td>
+              <td colSpan="3" className="py-2 text-left"><strong>NET CURRENT ASSETS/NET CASH IN BANK</strong></td>
+              <td className="py-2 text-left font-semibold">{odB}</td>
             </tr>
           </tfoot>
-        </Table>
+        </table>
 
-        <Table striped bordered hover responsive className="custom-table">
+        <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr>
-              <th style={{ width: '40%' }}></th>
-              <th style={{ width: '15%' }}></th>
-              <th style={{ width: '10%' }}></th>
-              <th style={{ width: '15%' }}></th>
+            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
+            <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider"></th>
             </tr>
           </thead>
           <tbody>
             {unutilizedGrant.map((row) => (
-              <tr key={row.id} onClick={() => handleShowDetails(row)}>
-                <td>{row.name}</td>
-                <th>{row.amount}</th>
-                <th>{row.rwf_equivalent}</th>
-                <th>{(row.amount * row.rwf_equivalent).toFixed(2)}</th>
+              <tr key={row.id} 
+              onClick={() => handleShowDetails(row)}
+              className="hover:bg-gray-100 cursor-pointer border-t"
+              >
+                <td className="px-3 py-2 max-w-18">{row.name}</td>
+                <td className="px-3 py-2 max-w-18">{row.amount}</td>
+                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
+                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="3"><strong>TOTAL UNUTILIZED GRANT</strong></td>
-              <td>{totalUG}</td>
+              <td colSpan="3" className="py-2 text-left"><strong>TOTAL UNUTILIZED GRANT</strong></td>
+              <td className="py-2 text-left font-semibold">{totalUG}</td>
             </tr>
           </tfoot>
-        </Table>
+        </table>
+        <div className=" inset-0 flex items-center justify-center p-5">
+            <button
+            onClick={handleShowCreate}
+            className=" flex items-center justify-center w-12 h-12 bg-[#087abc] hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            >
+            <span className="text-xl font-bold">+</span>
+            </button>
+        </div>
       </div>
 
       {/* Edit Modal */}
-      <Modal show={showEditModal} onHide={handleCloseEdit}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Bank Balance</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                name="name"
-                value={formData.name || ''}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
+      {showEditModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">Edit Bank Balance</h3>
+            <button
+                onClick={handleCloseCreate}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="px-6 py-4">
+              <form>
+                <div className="mb-4">
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700"                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name || ''}
+                    onChange={handleInputChange}
+                    placeholder="Enter name"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    />
+                </div>
 
-            <Form.Group controlId="formBasicAmount">
-              <Form.Label>Amount</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Amount"
-                name="amount"
-                value={formData.amount || ''}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
+                <div className="mb-4">
+                  <label
+                    htmlFor="amount"
+                    className="block text-gray-700"                  >
+                    Amount
+                  </label>
+                  <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    value={formData.amount || ''}
+                    onChange={handleInputChange}
+                    placeholder="Amount"
+                    className="w-full p-2 border border-gray-300 rounded"
+                    />
+                </div>
 
-            <Form.Group controlId="formBasicRwf">
-              <Form.Label>RWF Equivalent</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="RWF Equivalent"
-                name="rwf_equivalent"
-                value={formData.rwf_equivalent || ''}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseEdit}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleUpdate}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-{/* Create Modal */}
-<Modal show={showCreateModal} onHide={handleCloseCreate}>
-  <Modal.Header closeButton>
-    <Modal.Title>Create Bank Balance</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form>
-      <Form.Group controlId="formBasicName">
-        <Form.Label>Name</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Enter name"
-          name="name"
-          value={formData.name || ''}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+                <div className="mb-4">
+                  <label htmlFor="currency" 
+                  className="block text-gray-700">
+                    Currency
+                  </label>
+                  <select
+                    id="currency"
+                    name="currency"
+                    value={formData.currency || ''}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Select Currency</option>
+                    {rates.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-      <Form.Group controlId="formBasicAmount">
-        <Form.Label>Amount</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="Amount"
-          name="amount"
-          value={formData.amount || ''}
-          onChange={handleInputChange}
-        />
-      </Form.Group>
+                <div className="mb-4">
+                  <label htmlFor="type" 
+                  className="block text-gray-700">
+                    Category
+                  </label>
+                  <select
+                    id="type"
+                    name="type"
+                    value={formData.type || ''}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Current Asset">Current Asset</option>
+                    <option value="Unutilized Grant">Unutilized Grant</option>
+                    <option value="NET CURRENT ASSET">Net Current Asset</option>
+                  </select>
+                </div>
 
-      <Form.Group controlId="formBasicType">
-        <Form.Label>Currency</Form.Label>
-        <Form.Control
-          as="select"
-          name="currency"
-          value={formData.category || ''}
-          onChange={handleInputChange}
-        >
-          <option value="">Select Currency</option>
-          {rates.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.name}
-            </option>
-          ))}
-        </Form.Control>
-      </Form.Group>
+              </form>
+            </div>
+            <div className="flex items-center justify-end px-6 py-4 border-t">
+              <button
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                onClick={handleCloseEdit}
+              >
+                Close
+              </button>
+              <button
+                className="ml-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                onClick={handleUpdate}
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* <Form.Group controlId="formBasicRwf">
-        <Form.Label>RWF Equivalent</Form.Label>
-        <Form.Control
-          type="number"
-          placeholder="RWF Equivalent"
-          name="rwf_equivalent"
-          value={formData.rwf_equivalent || ''}
-          onChange={handleInputChange}
-        />
-      </Form.Group> */}
 
-      <Form.Group controlId="formBasicType">
-        <Form.Label>Category</Form.Label>
-        <Form.Control
-          as="select"
-          name="category"
-          value={formData.category || ''}
-          onChange={handleInputChange}
-        >
-          <option value="">Select Category</option>
-          <option value="Current Asset">Current Asset</option>
-          <option value="Unutilized Grant">Unutilized Grant</option>
-          <option value="NET CURRENT ASSET">Net Current Asset</option>
-        </Form.Control>
-      </Form.Group>
-    </Form>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={handleCloseCreate}>
-      Close
-    </Button>
-    <Button variant="primary" onClick={handleCreate}>
-      Create Bank Balance
-    </Button>
-  </Modal.Footer>
-</Modal>
+        {showDetailsModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+            <h3 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">View Bank Balance</h3>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Name:</label>
+              <p className="text-gray-800">{currentRow?.name || 'N/A'}</p>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Amount:</label>
+              <p className="text-gray-800">{currentRow?.amount || 'N/A'}</p>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Rate:</label>
+              <p className="text-gray-800">{currentRow?.rwf_equivalent || 'N/A'}</p>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 font-medium">Amount In RWF:</label>
+              <p className="text-gray-800">{(currentRow?.rwf_equivalent * currentRow?.amount) || 'N/A'}</p>
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={handleCloseDetails}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleShowEdit}
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+              >
+
+                edit
+              </button>
+              <button
+                onClick={handleDelete}
+                className="bg-red-600 text-white px-4 py-2 rounded"
+              >
+              Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold">Create Bank Balance</h3>
+            <button
+                onClick={handleCloseCreate}
+                className="text-gray-500 hover:text-gray-800"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="px-6 py-4">
+              <form>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name || ''}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2" htmlFor="amount">
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  value={formData.amount || ''}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                />
+              </div>
+
+                <div className="mb-4">
+                  <label htmlFor="currency" className="block text-gray-700 font-medium mb-2">
+                    Currency
+                  </label>
+                  <select
+                    id="currency"
+                    name="currency"
+                    value={formData.currency || ''}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Select Currency</option>
+                    {rates.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="mb-4">
+                  <label htmlFor="type" className="block text-gray-700 font-medium mb-2">
+                    Category
+                  </label>
+                  <select
+                    id="type"
+                    name="type"
+                    value={formData.type || ''}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Current Asset">Current Asset</option>
+                    <option value="Unutilized Grant">Unutilized Grant</option>
+                    <option value="NET CURRENT ASSET">Net Current Asset</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div className="flex items-center justify-end px-6 py-4 border-t">
+              <button
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                onClick={handleCloseCreate}
+              >
+                Close
+              </button>
+              <button
+                className="ml-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                onClick={handleCreate}
+              >
+                Create Bank Balance
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
