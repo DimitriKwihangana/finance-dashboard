@@ -167,11 +167,11 @@ const AccountReceivable = () => {
               <td colSpan="3" className="py-2 text-left">
                 <strong></strong>
               </td>
-              <td className="py-2 text-left font-semibold">{totalaccountReceivables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalaccountReceivables}</td>
               <td colSpan="1" className="py-2 text-center">
                 <strong></strong>
               </td>
-              <td className="py-2 text-left font-semibold">{balanceaccountReceivables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{balanceaccountReceivables}</td>
             </tr>
 
             </tfoot>

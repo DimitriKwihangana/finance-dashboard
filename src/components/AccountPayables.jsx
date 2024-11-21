@@ -167,11 +167,11 @@ const AccountPayable = () => {
               <td colSpan="3" className="py-2 text-left">
                 <strong></strong>
               </td>
-              <td className="py-2 text-left font-semibold">{totalaccountPayables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalaccountPayables}</td>
               <td colSpan="1" className="py-2 text-center">
                 <strong></strong>
               </td>
-              <td className="py-2 text-left font-semibold">{balanceaccountPayables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{balanceaccountPayables}</td>
             </tr>
 
             </tfoot>
