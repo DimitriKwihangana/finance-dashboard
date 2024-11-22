@@ -133,7 +133,7 @@ const AccountPayable = () => {
           
           <input
             type="text"
-            placeholder="Search by Customer Name..."
+            placeholder="Search by Supplier Name..."
             className="w-full p-2 mb-4 border border-gray-400 rounded"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
