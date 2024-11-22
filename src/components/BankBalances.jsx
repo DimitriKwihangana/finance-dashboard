@@ -167,15 +167,15 @@ const BankBalances = () => {
                 className="hover:bg-gray-100 cursor-pointer border-t"
                 >
                   <td className="px-3 py-2 max-w-18">{row.name}</td>
-                  <td className="px-3 py-2 max-w-18">{row.amount}</td>
-                  <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
-                  <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
+                  <td className="px-3 py-2 max-w-18">{row.amount ? parseFloat(row.amount).toLocaleString() : 'N/A'}</td>
+                  <td className="px-3 py-2 max-w-18">{row.rwf_equivalent ? parseFloat(row.rwf_equivalent).toLocaleString() : 'N/A'}</td>
+                  <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent) ? (row.amount * row.rwf_equivalent).toLocaleString(): 'N/A'}</td>
                 </tr>
               ))}
               {/* trying th magic here */}
               <tr>
                 <td colSpan="3" className="px-3 py-2 text-left"><strong>TOTAL CURRENT ASSETS</strong></td>
-                <td className="px-3 py-2 text-left font-semibold">{totalCurrentAsserts}</td>
+                <td className="px-3 py-2 text-left font-semibold">{totalCurrentAsserts ? totalCurrentAsserts.toLocaleString() : 'N/A'}</td>
               </tr>
               <tr>
                 <td colSpan="3" className="px-3 py-2 text-left"><strong></strong></td>
@@ -188,18 +188,18 @@ const BankBalances = () => {
               className="hover:bg-gray-100 cursor-pointer border-t"
               >
                 <td className="px-3 py-2 max-w-18">{row.name}</td>
-                <td className="px-3 py-2 max-w-18">{row.amount}</td>
-                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
-                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
+                <td className="px-3 py-2 max-w-18">{row.amount ? parseFloat(row.amount).toLocaleString() : 'N/A'}</td>
+                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent ? parseFloat(row.rwf_equivalent).toLocaleString() : 'N/A'}</td>
+                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent) ? (row.amount * row.rwf_equivalent).toLocaleString(): 'N/A'}</td>
               </tr>
             ))}
             <tr>
               <td colSpan="3" className="px-3 py-2 text-left">BALANCE OF O/D</td>
-              <td className="px-3 py-2 text-left font-semibold">{odB}</td>
+              <td className="px-3 py-2 text-left font-semibold">{odB ? odB.toLocaleString(): 'N/A'}</td>
             </tr>
             <tr>
               <td colSpan="3" className="px-3 py-2 text-left"><strong>NET CURRENT ASSETS/NET CASH IN BANK</strong></td>
-              <td className="px-3 py-2 text-left font-semibold">{odB}</td>
+              <td className="px-3 py-2 text-left font-semibold">{odB ? odB.toLocaleString(): 'N/A'}</td>
             </tr>
             <tr>
                 <td colSpan="3" className="px-3 py-2 text-left"><strong></strong></td>
@@ -212,15 +212,15 @@ const BankBalances = () => {
               className="hover:bg-gray-100 cursor-pointer border-t"
               >
                 <td className="px-3 py-2 max-w-18">{row.name}</td>
-                <td className="px-3 py-2 max-w-18">{row.amount}</td>
-                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent}</td>
-                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent).toFixed(2)}</td>
+                <td className="px-3 py-2 max-w-18">{row.amount ? parseFloat(row.amount).toLocaleString() : 'N/A'}</td>
+                <td className="px-3 py-2 max-w-18">{row.rwf_equivalent ? parseFloat(row.rwf_equivalent).toLocaleString() : 'N/A'}</td>
+                <td className="px-3 py-2 max-w-18">{(row.amount * row.rwf_equivalent) ? (row.amount * row.rwf_equivalent).toLocaleString(): 'N/A'}</td>
               </tr>
             ))}
 
             <tr>
               <td colSpan="3" className="px-3 py-2 text-left"><strong>TOTAL UNUTILIZED GRANT</strong></td>
-              <td className="px-3 py-2 text-left font-semibold">{totalUG}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalUG ? totalUG.toLocaleString(): 'N/A'}</td>
             </tr>
               
             </tbody>
