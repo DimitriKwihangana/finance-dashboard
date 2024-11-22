@@ -162,9 +162,9 @@ const AccountReceivable = () => {
                   <td className="px-3 py-2 max-w-18">{row.invoice_date}</td>
                   <td className="px-3 py-2 max-w-18">{row.invoice_number}</td>
                   <td className="px-3 py-2 max-w-18">{row.customer_name}</td>
-                  <td className="px-3 py-2 max-w-18">{row.total_amount}</td>
+                  <td className="px-3 py-2 max-w-18">{row.total_amount ? parseFloat((row.total_amount)).toLocaleString() : 'N/A'}</td>
                   <td className="px-3 py-2 max-w-18">{row.due_date}</td>
-                  <td className="px-3 py-2 max-w-18">{row.balance }</td>
+                  <td className="px-3 py-2 max-w-18">{row.balance ? parseFloat((row.balance)).toLocaleString() : 'N/A'}</td>
                   <td className="px-3 py-2 max-w-18">{row.service_type}</td>
                   <td className="px-3 py-2 max-w-18">
                     {Math.round((row.balance / totalaccountReceivables) * 100)}%
@@ -177,11 +177,11 @@ const AccountReceivable = () => {
               <td colSpan="3" className="py-2 text-left">
                 <strong></strong>
               </td>
-              <td className="px-3 py-2 text-left font-semibold">{totalaccountReceivables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalaccountReceivables ?  totalaccountReceivables.toLocaleString() : 'N/A'}</td>
               <td colSpan="1" className="py-2 text-center">
                 <strong></strong>
               </td>
-              <td className="px-3 py-2 text-left font-semibold">{balanceaccountReceivables}</td>
+              <td className="px-3 py-2 text-left font-semibold">{balanceaccountReceivables ? balanceaccountReceivables.toLocaleString() : 'N/A'}</td>
             </tr>
 
             </tfoot>
