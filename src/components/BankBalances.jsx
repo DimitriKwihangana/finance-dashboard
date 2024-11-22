@@ -48,7 +48,7 @@ const BankBalances = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value, company:selectedCompany });
   };
 
   const handleUpdate = async () => {
@@ -84,7 +84,14 @@ const BankBalances = () => {
     handleFetchProjects();
   }, [handleFetchProjects]);
 
-  const bankBalances = useSelector((state) => state.data.bankBalances);
+  const [selectedCompany, setSelectedCompany] = useState(() => {
+    return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+  });
+
+  const allBankBalances = useSelector((state) => state.data.bankBalances);
+
+  const bankBalances = allBankBalances.filter((data) => data.company == selectedCompany)
+
   const rates = useSelector((state) => state.data.rates);
   const unutilizedGrant = bankBalances.filter((grants) => grants.type === 'Unutilized Grant');
   const currentAssets = bankBalances.filter((assets) => assets.type === 'Current Asset');

@@ -37,7 +37,7 @@ const AccountReceivable = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value, company:selectedCompany });
   };
 
   const handleCreate = async () => {
@@ -84,7 +84,14 @@ const AccountReceivable = () => {
     handleFetchProjects();
   }, [handleFetchProjects]);
 
-  const accountreceivables = useSelector((state) => state.data.accountReceivable);
+
+  const [selectedCompany, setSelectedCompany] = useState(() => {
+    return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+  });
+
+  const allAccountReceivables = useSelector((state) => state.data.accountReceivable);
+
+  const accountreceivables = allAccountReceivables.filter((data) => data.company == selectedCompany)
 
   const totalaccountReceivables = accountreceivables.reduce(
     (total, item) => total + parseFloat(item.total_amount || 0),

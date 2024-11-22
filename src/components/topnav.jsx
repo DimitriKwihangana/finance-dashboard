@@ -15,6 +15,17 @@ const TabsComponent = () => {
   ];
 
   const mainColor = '#087abc'; // Main color
+//
+const [selectedCompany, setSelectedCompany] = useState(() => {
+  return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+});
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSelectedCompany(value);
+    localStorage.setItem("financeUpdate", value);
+    window.location.reload();
+  };
 
   // Use useEffect to set active tab based on the current path
   useEffect(() => {
@@ -24,9 +35,15 @@ const TabsComponent = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold text-center p-2" style={{ color: mainColor }}>
-        FINANCE UPDATES
-      </h2>
+      <select
+        value={selectedCompany} // Controlled component
+        onChange={handleChange}
+        className="text-2xl font-bold text-center p-2 appearance-none"
+        style={{ color: mainColor, background: "none", border: "none", outline: "none" }}
+      >
+        <option value="VanguardEconomics">VANGUARD FINANCE UPDATES</option>
+        <option value="Aflakiosk">AFLAKIOSK FINANCE UPDATES</option>
+      </select>
       <div className="flex justify-between border-b-2">
         {tabs.map((tab, index) => (
           <Link

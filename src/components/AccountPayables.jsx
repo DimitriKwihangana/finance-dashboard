@@ -37,7 +37,7 @@ const AccountPayable = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value, company:selectedCompany });
   };
 
   const handleCreate = async () => {
@@ -84,7 +84,13 @@ const AccountPayable = () => {
     handleFetchProjects();
   }, [handleFetchProjects]);
 
-  const accountPayables = useSelector((state) => state.data.accountPayable);
+  const [selectedCompany, setSelectedCompany] = useState(() => {
+    return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+  });
+
+  const allAccountPayables = useSelector((state) => state.data.accountPayable);
+
+  const accountPayables = allAccountPayables.filter((data) => data.company == selectedCompany)
 
   const totalaccountPayables = accountPayables.reduce(
     (total, item) => total + parseFloat(item.total_amount || 0),

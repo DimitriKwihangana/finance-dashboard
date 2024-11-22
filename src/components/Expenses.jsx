@@ -11,7 +11,14 @@ const Expenses = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const dispatch = useDispatch();
-  const expenses = useSelector((state) => state.data.expenses);
+
+  const [selectedCompany, setSelectedCompany] = useState(() => {
+    return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+  });
+
+  const allExpenses = useSelector((state) => state.data.expenses);
+
+  const expenses = allExpenses.filter((data) => data.company == selectedCompany)
 
   const totalExpenses = expenses.reduce(
     (total, item) => total + parseFloat(item.amount || 0),
@@ -48,7 +55,7 @@ const Expenses = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value, company:selectedCompany });
   };
 
   const handleCreate = async () => {
@@ -56,6 +63,7 @@ const Expenses = () => {
       await axios.post('/expense/', formData);
       setShowCreateModal(false);
       handleFetchProjects();
+      window.location.reload();
     } catch (error) {
       console.error("Error creating data:", error);
     }
@@ -66,6 +74,7 @@ const Expenses = () => {
       await axios.put(`expense/${formData.id}/`, formData);
       setShowEditModal(false);
       handleFetchProjects();
+      window.location.reload();
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -76,6 +85,7 @@ const Expenses = () => {
       try {
         await axios.delete(`expense/${id}/`);
         handleFetchProjects();
+        window.location.reload();
       } catch (error) {
         console.error("Error deleting data:", error);
       }
