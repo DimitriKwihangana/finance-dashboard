@@ -14,46 +14,55 @@ const TabsComponent = () => {
     { name: 'Exchange rates', path: '/rates' },
   ];
 
-  const mainColor = '#087abc'; // Main color
-//
-const [selectedCompany, setSelectedCompany] = useState(() => {
-  return localStorage.getItem("financeUpdate") || "VanguardEconomics";
-});
+  const [selectedCompany, setSelectedCompany] = useState(() => {
+    return localStorage.getItem('financeUpdate') || 'VanguardEconomics';
+  });
+
+  const mainColor = selectedCompany === 'VanguardEconomics' ? '#087abc' : '#12723a'; // Main color
 
   const handleChange = (event) => {
     const value = event.target.value;
     setSelectedCompany(value);
-    localStorage.setItem("financeUpdate", value);
+    localStorage.setItem('financeUpdate', value);
     window.location.reload();
   };
 
   // Use useEffect to set active tab based on the current path
   useEffect(() => {
-    const currentTab = tabs.findIndex(tab => tab.path === location.pathname);
+    const currentTab = tabs.findIndex((tab) => tab.path === location.pathname);
     setActiveTab(currentTab !== -1 ? currentTab : 0);
   }, [location.pathname, tabs]);
 
   return (
     <div className="w-full">
-      <select
-        value={selectedCompany} // Controlled component
-        onChange={handleChange}
-        className="text-2xl font-bold text-center p-2 appearance-none"
-        style={{ color: mainColor, background: "none", border: "none", outline: "none" }}
-      >
-        <option value="VanguardEconomics">VANGUARD FINANCE UPDATES</option>
-        <option value="Aflakiosk">AFLAKIOSK FINANCE UPDATES</option>
-      </select>
+      <div className="flex justify-center mb-4">
+        <select
+          value={selectedCompany} // Controlled component
+          onChange={handleChange}
+          className="text-2xl font-bold text-center p-2 appearance-none"
+          style={{
+            color: mainColor,
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+          }}
+        >
+          <option value="VanguardEconomics">VANGUARD FINANCE UPDATES</option>
+          <option value="Aflakiosk">AFLAKIOSK FINANCE UPDATES</option>
+        </select>
+      </div>
       <div className="flex justify-between border-b-2">
         {tabs.map((tab, index) => (
           <Link
+            style={{ color: mainColor }}
             key={index}
             to={tab.path}
             className={classNames(
-              'py-2 px-4 transition-all duration-300 ease-in-out', 
+              'py-2 px-4 transition-all duration-300 ease-in-out',
               {
-                'text-[#087abc] border-b-2 border-[#087abc] font-bold': activeTab === index,
-                'border-transparent text-gray-600 hover:text-[#087abc] hover:border-b-2 hover:border-[#087abc]': activeTab !== index
+                [`border-b-2 border-[${mainColor}] font-bold`]: activeTab === index,
+                [`border-transparent text-gray-600 hover:text-[${mainColor}] hover:border-b-2 hover:border-[${mainColor}]`]:
+                  activeTab !== index,
               }
             )}
             aria-selected={activeTab === index}

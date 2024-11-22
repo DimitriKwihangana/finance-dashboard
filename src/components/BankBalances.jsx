@@ -97,6 +97,9 @@ const BankBalances = () => {
   const currentAssets = bankBalances.filter((assets) => assets.type === 'Current Asset');
   const netCurrentAssets = bankBalances.filter((assets) => assets.type === 'NET CURRENT ASSET');
 
+  const mainColor = selectedCompany == "VanguardEconomics" ? '#087abc':'#12723a'; // Main color
+
+
   useEffect(() => {
     setTotalCurrentAsserts(
       currentAssets.reduce(
@@ -145,15 +148,15 @@ const BankBalances = () => {
   return (
     <div>
       <div className="bg-white rounded-lg shadow-lg p-4">
-        <h2 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">VANGUARD BANK BALANCES AS OF <span className="underline underline-offset-8">{formattedDate}</span></h2>
+        <h2 className="text-xl font-boTableld mb-4  text-center" style={{color : mainColor}}>VANGUARD BANK BALANCES AS OF <span className="underline underline-offset-8">{formattedDate}</span></h2>
 
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr>
-                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">CASH AT BANK</th>
-                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Rate</th>
-                <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Amount in RWF</th>
+                <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>CASH AT BANK</th>
+                <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Amount</th>
+                <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Rate</th>
+                <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Amount in RWF</th>
               </tr>
             </thead>
             <tbody>
@@ -227,7 +230,7 @@ const BankBalances = () => {
         <div className=" inset-0 flex items-center justify-center p-5">
             <button
             onClick={handleShowCreate}
-            className=" flex items-center justify-center w-12 h-12 bg-[#087abc] hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            className=" flex items-center justify-center w-12 h-12 hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300" style={{backgroundColor : mainColor}}
             >
             <span className="text-xl font-bold">+</span>
             </button>
@@ -239,7 +242,7 @@ const BankBalances = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">Edit Bank Balance</h3>
+            <h3 className="text-xl font-boTableld mb-4 text-center" style={{color : mainColor}}>Edit Bank Balance</h3>
             <button
                 onClick={handleCloseCreate}
                 className="text-gray-500 hover:text-gray-800"
@@ -346,7 +349,8 @@ const BankBalances = () => {
                 Close
               </button>
               <button
-                className="ml-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                className="ml-2 px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-indigo-700"
+                style={{backgroundColor : mainColor}}
                 onClick={handleUpdate}
               >
                 Save Changes
@@ -360,7 +364,7 @@ const BankBalances = () => {
         {showDetailsModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-            <h3 className="text-xl font-boTableld mb-4 text-[#087abc]  text-center">View Bank Balance</h3>
+            <h3 className="text-xl font-boTableld mb-4 text-center" style={{color : mainColor}}>View Bank Balance</h3>
             <div className="mb-4">
               <label className="block text-gray-700 font-medium">Name:</label>
               <p className="text-gray-800">{currentRow?.name || 'N/A'}</p>
@@ -387,7 +391,8 @@ const BankBalances = () => {
               </button>
               <button
                 onClick={handleShowEdit}
-                className="bg-blue-600 text-white px-4 py-2 rounded"
+                className="text-white px-4 py-2 rounded"
+                style={{backgroundColor : mainColor}}
               >
 
                 edit
@@ -408,7 +413,7 @@ const BankBalances = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">Create Bank Balance</h3>
+            <h3 className="text-xl font-bold" style={{color : mainColor}}>Create Bank Balance</h3>
             <button
                 onClick={handleCloseCreate}
                 className="text-gray-500 hover:text-gray-800"
@@ -507,10 +512,11 @@ const BankBalances = () => {
                 Close
               </button>
               <button
-                className="ml-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                className="ml-2 px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-indigo-700"
+                style={{backgroundColor : mainColor}}
                 onClick={handleCreate}
               >
-                Create Bank Balance
+                Create
               </button>
             </div>
           </div>

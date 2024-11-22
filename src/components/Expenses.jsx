@@ -25,6 +25,9 @@ const Expenses = () => {
     0
   );
 
+  const mainColor = selectedCompany == "VanguardEconomics" ? '#087abc':'#12723a'; // Main color
+
+
   const handleFetchProjects = useCallback(() => {
     dispatch(fetchExpenses());
     dispatch(fetchBankBalances());
@@ -98,7 +101,7 @@ const Expenses = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">EXPENSES</h2>
+      <h2 className="text-xl font-bold mb-4  text-center" style={{color : mainColor}}>EXPENSES</h2>
 
       <input
         type="text"
@@ -111,10 +114,10 @@ const Expenses = () => {
       <table className="table-auto w-full border-collapse border border-gray-300">
         <thead>
           <tr>
-            <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>
               Description
             </th>
-            <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>
               Amount
             </th>
           </tr>
@@ -136,7 +139,7 @@ const Expenses = () => {
               <td  className="py-2 text-left">
                 <strong></strong>
               </td>
-              <td className="py-2 text-left font-semibold">{totalExpenses}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalExpenses}</td>
             </tr>
             </tfoot>
       </table>
@@ -145,7 +148,7 @@ const Expenses = () => {
       <div className=" inset-0 flex items-center justify-center p-5">
           <button
               onClick={handleShowCreate}
-              className=" flex items-center justify-center w-12 h-12 bg-[#087abc] hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className=" flex items-center justify-center w-12 h-12 hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300" style={{backgroundColor : mainColor}}
               >
               <span className="text-xl font-bold">+</span>
           </button>
@@ -155,7 +158,7 @@ const Expenses = () => {
       {showDetailsModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Expense Details</h3>
+            <h3 className="text-lg font-semibold mb-4" style={{color : mainColor}}>Expense Details</h3>
             
             <div className="mb-4">
               <label className="block text-gray-700 font-medium">Description:</label>
@@ -175,8 +178,9 @@ const Expenses = () => {
                 Close
               </button>
               <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
+                className="text-white px-4 py-2 rounded"
                 onClick={() => { handleCloseDetails(); handleShowEdit(formData); }}
+                style={{backgroundColor : mainColor}}
               >
                 Edit
               </button>
@@ -191,14 +195,11 @@ const Expenses = () => {
         </div>
       )}
 
-      {/* Create and Edit modals can follow a similar structure */}
-
-
       {showCreateModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">Create New Entry</h3>
+        <h3 className="text-xl font-bold" style={{color : mainColor}}>Create New Entry</h3>
         <button
           onClick={handleCloseCreate}
           className="text-gray-500 hover:text-gray-800"
@@ -264,6 +265,7 @@ const Expenses = () => {
             type="button"
             onClick={handleCreate}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            style={{backgroundColor : mainColor}}
           >
             Create
           </button>
@@ -276,7 +278,7 @@ const Expenses = () => {
 {showEditModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-      <h3 className="text-xl font-bold mb-4">Edit Expense</h3>
+      <h3 className="text-xl font-bold mb-4" style={{color : mainColor}}>Edit Expense</h3>
       <form onSubmit={(e) => e.preventDefault()}>
 
         <div className="mb-4">
@@ -309,7 +311,8 @@ const Expenses = () => {
           </button>
           <button
             onClick={handleUpdate}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="text-white px-4 py-2 rounded"
+            style={{backgroundColor : mainColor}}
           >
             Update
           </button>

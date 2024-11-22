@@ -12,6 +12,12 @@ const CurrencyCrud = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [selectedCompany, setSelectedCompany] = useState(() => {
+        return localStorage.getItem("financeUpdate") || "VanguardEconomics";
+      });
+
+      const mainColor = selectedCompany == "VanguardEconomics" ? '#087abc':'#12723a'; // Main color
+
     // Redux state for rates
     const rates = useSelector((state) => state.data.rates);
 
@@ -56,7 +62,7 @@ const CurrencyCrud = () => {
 
     return (
         <div>
-            <h1 className="text-xl font-bold mb-4 text-[#087abc]  text-center">CURRENCY MANAGEMENT</h1>
+            <h1 className="text-xl font-bold mb-4 text-center" style={{color : mainColor}}>CURRENCY MANAGEMENT</h1>
             {error && <div className="bg-red-100 text-red-700 px-4 py-3 rounded mb-4">{error}</div>}
             <form onSubmit={handleSubmit} className="mb-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
@@ -65,7 +71,8 @@ const CurrencyCrud = () => {
                         name="currency_code"
                         value={currency.currency_code}
                         onChange={handleChange}
-                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#087ABC]"
+                        className={`px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[${mainColor}]`}
+                        tabIndex={0}
                         placeholder="Currency Code"
                         required
                     />
@@ -74,7 +81,8 @@ const CurrencyCrud = () => {
                         name="name"
                         value={currency.name}
                         onChange={handleChange}
-                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#087ABC]"
+                        className={`px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[${mainColor}]`}
+                        tabIndex={0}
                         placeholder="Currency Name"
                         required
                     />
@@ -83,7 +91,8 @@ const CurrencyCrud = () => {
                         name="rwf_equivalent"
                         value={currency.rwf_equivalent}
                         onChange={handleChange}
-                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#087ABC]"
+                        className={`px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[${mainColor}]`}
+                        tabIndex={0}
                         placeholder="RWF Equivalent"
                         required
                     />
@@ -91,11 +100,14 @@ const CurrencyCrud = () => {
                 <button
                     type="submit"
                     className={`w-full px-4 py-2 text-white rounded-md ${editing ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-blue-500 hover:bg-blue-600'}`}
+                    style={{
+                        backgroundColor: editing ? undefined : mainColor,
+                      }}
                 >
                     {editing ? 'Update Currency' : 'Add Currency'}
                 </button>
             </form>
-            <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">CURRENCY LIST</h2>
+            <h2 className="text-xl font-bold mb-4  text-center" style={{color : mainColor}}>CURRENCY LIST</h2>
             <ul className="divide-y divide-gray-200 border border-gray-200 rounded-md">
                 {rates.map((currency) => (
                     <li key={currency.id} className="px-4 py-4 flex justify-between items-center">
@@ -104,7 +116,8 @@ const CurrencyCrud = () => {
                         </div>
                         <div>
                             <button
-                                className="px-4 py-2 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                                className="px-4 py-2 text-sm text-white rounded-md"
+                                style={{backgroundColor : mainColor}}
                                 onClick={() => handleEdit(currency)}
                             >
                                 Edit

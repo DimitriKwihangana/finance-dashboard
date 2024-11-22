@@ -117,6 +117,9 @@ const AccountReceivable = () => {
     setCurrentPage(pageNumber);
   };
 
+  const mainColor = selectedCompany == "VanguardEconomics" ? '#087abc':'#12723a'; // Main color
+
+
   const today = new Date();
   const formattedDate = `${today.getDate()}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
 
@@ -126,7 +129,7 @@ const AccountReceivable = () => {
 
       <main className="">
         <div className="bg-white rounded-lg shadow-lg p-4">
-          <h2 className="text-xl font-bold mb-4 text-[#087abc]  text-center">ACCOUNT  RECEIVABLES AGEING SUMMARY AS OF <span className="underline underline-offset-8">{formattedDate}</span>
+          <h2 className="text-xl font-bold mb-4  text-center" style={{ color: mainColor }}>ACCOUNT  RECEIVABLES AGEING SUMMARY AS OF <span className="underline underline-offset-8">{formattedDate}</span>
 </h2>
           
           <input
@@ -139,14 +142,14 @@ const AccountReceivable = () => {
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Invoice Date</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Invoice Number</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Customer Name</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Total Amount</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Due Date</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Balance</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Service Type</th>
-              <th className="px-6 py-3 bg-[#087ABC] text-left text-xs font-semibold text-white uppercase tracking-wider">Percentage</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Invoice Date</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Invoice Number</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Customer Name</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Total Amount</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Due Date</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Balance</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Service Type</th>
+              <th className="px-6 py-3  text-left text-xs font-semibold text-white uppercase tracking-wider" style={{backgroundColor : mainColor}}>Percentage</th>
               </tr>
             </thead>
             <tbody>
@@ -188,7 +191,7 @@ const AccountReceivable = () => {
 
         <button
       onClick={handleShowCreate}
-      className=" flex items-center justify-center w-12 h-12 bg-[#087abc] hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+      className=" flex items-center justify-center w-12 h-12 hover:bg-blue-600 text-white rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300" style={{backgroundColor : mainColor}}
       >
       <span className="text-xl font-bold">+</span>
     </button>
@@ -199,7 +202,7 @@ const AccountReceivable = () => {
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold">Create New Entry</h3>
+        <h3 className="text-xl font-bold" style={{color : mainColor}}>Create New Entry</h3>
         <button
           onClick={handleCloseCreate}
           className="text-gray-500 hover:text-gray-800"
@@ -342,6 +345,7 @@ const AccountReceivable = () => {
             type="button"
             onClick={handleCreate}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            style={{backgroundColor : mainColor}}
           >
             Create
           </button>
@@ -354,7 +358,7 @@ const AccountReceivable = () => {
 {showEditModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-      <h3 className="text-xl font-bold mb-4">Edit Account Receivable</h3>
+      <h3 className="text-xl font-bold mb-4" style={{color : mainColor}}>Edit Account Receivable</h3>
       <form onSubmit={(e) => e.preventDefault()}>
       <div className="mb-4">
           <label className="block text-gray-700">Invoice Date</label>
@@ -436,6 +440,7 @@ const AccountReceivable = () => {
           <button
             onClick={handleUpdate}
             className="bg-blue-600 text-white px-4 py-2 rounded"
+            style={{backgroundColor : mainColor}}
           >
             Update
           </button>
@@ -448,7 +453,7 @@ const AccountReceivable = () => {
 {showReadOnlyModal && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-      <h3 className="text-xl font-bold mb-4">View Account Receivable</h3>
+      <h3 className="text-xl font-bold mb-4" style={{color : mainColor}}>View Account Receivable</h3>
       <div className="mb-4">
         <label className="block text-gray-700 font-medium">Customer Name:</label>
         <p className="text-gray-800">{currentRow?.customer_name || 'N/A'}</p>
@@ -487,6 +492,7 @@ const AccountReceivable = () => {
         <button
           onClick={handleShowEdit}
           className="bg-blue-600 text-white px-4 py-2 rounded"
+          style={{backgroundColor : mainColor}}
         >
 
           edit
