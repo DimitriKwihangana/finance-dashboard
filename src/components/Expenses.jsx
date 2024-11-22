@@ -130,7 +130,7 @@ const Expenses = () => {
               className="hover:bg-gray-100 cursor-pointer border-t"
             >
               <td className="px-3 py-2 max-w-18">{row.description}</td>
-              <td className="px-3 py-2 max-w-18">{row.amount}</td>
+              <td className="px-3 py-2 max-w-18">{row.amount ? parseFloat(row.amount).toLocaleString() : 'N/A'}</td>
             </tr>
           ))}
         </tbody>
@@ -139,7 +139,7 @@ const Expenses = () => {
               <td  className="py-2 text-left">
                 <strong></strong>
               </td>
-              <td className="px-3 py-2 text-left font-semibold">{totalExpenses}</td>
+              <td className="px-3 py-2 text-left font-semibold">{totalExpenses ?  totalExpenses.toLocaleString() : 'N/A'}</td>
             </tr>
             </tfoot>
       </table>
